@@ -1,0 +1,35 @@
+<Window
+    x:Class="App1.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:canvas="using:Microsoft.Graphics.Canvas.UI.Xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <!-- NOTE: In WinUI 3, Window doesn't have Width/Height in XAML. Size the window in code or let it default. -->
+
+    <Grid RowDefinitions="Auto,*" Background="#0D0D0D">
+        <StackPanel Orientation="Horizontal" Spacing="16" Padding="16" Background="#141414" VerticalAlignment="Top">
+            <CheckBox x:Name="GridCheck" Content="Grid" IsChecked="True" Foreground="White"/>
+            <CheckBox x:Name="SnapCheck" Content="Snap" Foreground="White"/>
+            <CheckBox x:Name="NormalizeCheck" Content="Normalize onto (û)" Foreground="White"/>
+            <ComboBox x:Name="ModeBox" Width="190" SelectedIndex="0">
+                <ComboBoxItem>Project a onto b</ComboBoxItem>
+                <ComboBoxItem>Project b onto a</ComboBoxItem>
+            </ComboBox>
+            <TextBlock Foreground="#C0C0C0" Text="Wheel=Zoom • R Reset • G Grid • S Snap • N Normalize • P Swap"/>
+        </StackPanel>
+
+        <canvas:CanvasControl Grid.Row="1" x:Name="Canvas"
+                               ClearColor="#101010"
+                               CreateResources="Canvas_CreateResources"
+                               Draw="Canvas_Draw"
+                               PointerPressed="Canvas_PointerPressed"
+                               PointerMoved="Canvas_PointerMoved"
+                               PointerReleased="Canvas_PointerReleased"
+                               PointerWheelChanged="Canvas_PointerWheelChanged"
+                               IsTabStop="True"
+                               KeyDown="Canvas_KeyDown"/>
+    </Grid>
+</Window>

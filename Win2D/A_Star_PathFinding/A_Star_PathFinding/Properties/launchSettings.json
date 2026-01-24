@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "A_Star_PathFinding (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "A_Star_PathFinding (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
