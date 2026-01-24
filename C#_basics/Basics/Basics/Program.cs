@@ -1,28 +1,23 @@
-﻿public struct Vector2 
+﻿using System.Collections.Generic;
+using Basics.Math;
+using Basics;
+
+Vector2 Player = new Vector2 { X = 10, Y = 5 };
+Vector2 Enemy = new Vector2 { X = 2, Y = 2 };
+
+Vector2 Direction = Player - Enemy;
+Direction = Direction.Normalized;
+
+
+PlayerManager playerManager = new PlayerManager();
+
+public class Crate : IDamageable
 {
-    public float X { get; set; }
-    public float Y { get; set; }
-
-    public float Length
+    public float Health { get; set; } = 50;
+    public void TakeDamage(float damage)
     {
-        get
-        {
-            return MathF.Sqrt(X * X + Y * Y);
-        }
-    } 
-
-    public Vector2 Normalized 
-    {
-        get 
-        {
-            if (Length < float.Epsilon) return new Vector2 { X = 0, Y = 0 };
-            return new Vector2 {X = X/Length, Y = Y/Length };
-        }
-    }
-
-    public static float Dot(Vector2 a, Vector2 b) 
-    {
-        return a.X * b.X + a.Y * b.Y;
+        Health -= damage;
+        if (Health < 250) Console.WriteLine("Crate cracks");
+        else if(Health < 0) Health = 0;
     }
 }
-
