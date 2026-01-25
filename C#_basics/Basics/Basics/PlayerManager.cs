@@ -8,13 +8,19 @@ namespace Basics
     {
         public PlayerManager() 
         {
-            Enemy.OnDeath += GiveXP;
-
             List<IDamageable> damageables = new List<IDamageable>
             {
                 new Skeleton(),
                 new Crate()
             };
+
+            foreach (var damageable in damageables)
+            {
+                if (damageable is Enemy enemy)
+                {
+                    enemy.OnDeath += GiveXP;
+                }
+            }
 
             foreach (var damageable in damageables)
             {

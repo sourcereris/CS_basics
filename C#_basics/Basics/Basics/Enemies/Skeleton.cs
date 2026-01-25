@@ -6,6 +6,8 @@ namespace Basics
 {
     public class Skeleton : Enemy
     {
+        public Skeleton() : base() { }
+        public Skeleton(float hp) : base(hp) { }
 
         string name = "Goblin";
         public override void Attack()

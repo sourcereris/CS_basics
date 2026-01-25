@@ -7,8 +7,15 @@ namespace Basics
     public abstract class Enemy : IDamageable
     {
         public float Health { get; set; } = 100;
+
+        public Enemy() { }
+        public Enemy(float health)
+        {
+            Health = health;
+        }
+
         bool dead = false;
-        public static event Action<string> OnDeath;
+        public event Action<string> OnDeath;
         public abstract void Attack();
 
         public virtual void TakeDamage(float damage)
