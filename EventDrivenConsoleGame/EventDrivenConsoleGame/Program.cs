@@ -28,7 +28,7 @@ while (true)
     
     if (KTime.ElapsedTime_UI >= UIFrameTime) 
     {
-        UI.RenderScore();
+        UI.RenderUI();
         KTime.ConsumeElapsedTime_UI(UIFrameTime);
     }
 

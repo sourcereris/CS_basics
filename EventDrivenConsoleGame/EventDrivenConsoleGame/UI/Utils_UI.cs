@@ -4,7 +4,7 @@ using System.Text;
 
 static class Utils_UI 
 {
-    public static char[,] _backBuffer = new char[Info.WIDTH, Info.HEIGHT];
+    public static char[,] _backBuffer = new char[GameData.WIDTH, GameData.HEIGHT];
 
 
     public static void DrawBox(int x, int y, int width, int height) 
@@ -29,37 +29,41 @@ static class Utils_UI
         }
     }
 
-    public static void Render()
+    public static void DrawText(int x, int y, string text) 
     {
-        // Write line by line to bypass auto-wrap and newline bugs
-        for (int y = 0; y < Info.HEIGHT; y++)
+        for (int i = 0; i < text.Length; i++)
         {
-            Console.SetCursorPosition(0, y);
-
-            StringBuilder row = new StringBuilder(Info.WIDTH);
-            for (int x = 0; x < Info.WIDTH; x++)
+            if (x + i < GameData.WIDTH) // Prevent overflow
             {
-                // THE MAGIC FIX: Do not write to the absolute bottom-right corner.
-                // This prevents the console from automatically scrolling down.
-                //if (x == Info.WIDTH - 1 && y == Info.HEIGHT - 1)
-                //{
-                //    // Just leave it blank/skip it
-                //    continue;
-                //}
+                _backBuffer[x + i, y] = text[i];
+            }
+        }
+    }
 
+    public static void Render() //uses string builder for better performance
+    {
+        for (int y = 0; y < GameData.HEIGHT; y++)
+        {
+
+            Console.SetCursorPosition(0, y); //works as /n
+
+            StringBuilder row = new StringBuilder(GameData.WIDTH);
+
+            for (int x = 0; x < GameData.WIDTH; x++)
+            {
                 row.Append(_backBuffer[x, y]);
             }
 
-            // Print the row WITHOUT a newline character
+            // row WITHOUT /n
             Console.Write(row.ToString());
         }
     }
 
     public static void ClearBackBuffer() 
     {
-        for (int x = 0; x < Info.WIDTH; x++)
+        for (int x = 0; x < GameData.WIDTH; x++)
         {
-            for (int y = 0; y < Info.HEIGHT; y++)
+            for (int y = 0; y < GameData.HEIGHT; y++)
             {
                 _backBuffer[x, y] = ' ';
             }
