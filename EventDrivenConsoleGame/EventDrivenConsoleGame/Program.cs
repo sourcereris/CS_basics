@@ -37,6 +37,7 @@ while (true)
 
 void SetupConsole() 
 {
+    GameData.currentState = GameState.MainMenu;
     Console.CursorVisible = false;
     Console.Clear();
 }

@@ -4,19 +4,25 @@ using System.Text;
 
 static class UI 
 {
+    static Layout mainMenu = new MainMenuLayout();
     public static void RenderUI() 
     {
         Utils_UI.ClearBackBuffer();
+        Utils_UI.DrawBox(0, 0, GameData.WIDTH - 1, GameData.HEIGHT - 1); // Screen Outline
 
-        Utils_UI.DrawBox(0, 0, GameData.WIDTH - 1, GameData.HEIGHT - 1);
+        switch (GameData.currentState)
+        {
+            case GameState.MainMenu:
+                mainMenu.Render();
+                break;
+            case GameState.Playing:
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                break;
+            default:
+                Console.ForegroundColor = ConsoleColor.Red;
+                break;
+        }
 
-        Console.ForegroundColor = ConsoleColor.Yellow;
-        string scoreText = $"Score: {GameData.Score}";
-        Utils_UI.DrawText(2, 2, scoreText);
-        Utils_UI.DrawBox(1, 1, scoreText.Length + 1, 2);
-
-        //Console.ForegroundColor = ConsoleColor.White;
-
-        Utils_UI.Render();
+        Utils_UI.RenderBuffer();
     }
 }

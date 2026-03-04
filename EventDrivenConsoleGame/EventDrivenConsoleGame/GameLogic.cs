@@ -4,6 +4,12 @@ using System.Text;
 
 class GameLogic
 {
+
+    public GameLogic()
+    {
+        InputEvents.Key_Spacebar_Event += AddScore;
+    }
+
     public void TimeIncrement() 
     {
         GameData.time += KTime.DeltaTime;
