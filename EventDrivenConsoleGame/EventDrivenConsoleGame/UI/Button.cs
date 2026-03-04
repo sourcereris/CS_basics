@@ -7,6 +7,8 @@
     public string Text { get; private set; }
     public bool IsSelected { get; set; }
 
+    public Action OnClick { get; set; }
+
     public Button(string text, int x, int y, int width, int height)
     {
         Text = text;
@@ -29,5 +31,9 @@
         {
             Utils_UI.SetPixel(textX - 3, Y+1, '>');
         }
+    }
+    public void Click() 
+    {
+        OnClick?.Invoke();
     }
 }

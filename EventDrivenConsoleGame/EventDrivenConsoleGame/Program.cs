@@ -8,7 +8,7 @@ InputManager inputManager = new InputManager(gameLogic);
 
 SetupConsole();
 
-while (true) 
+while (GameData.IsPlaying) 
 {
     KTime.Update(); // calculates Deltatime
 

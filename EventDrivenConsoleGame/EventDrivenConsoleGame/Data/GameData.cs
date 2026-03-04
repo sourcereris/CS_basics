@@ -16,6 +16,8 @@ static class GameData
 
     public static GameState currentState;
 
+    public static bool IsPlaying = true;
+
     public const int WIDTH = 120;
     public const int HEIGHT = 30;
 }
