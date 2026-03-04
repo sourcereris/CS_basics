@@ -6,8 +6,11 @@ static class UI
 {
     public static void RenderScore() 
     {
-        Console.WriteLine($"Score: {GameData.Score}");
-        Console.WriteLine($"Time: {GameData.time:F1}");
+        Utils_UI.ClearBackBuffer();
+
+        Utils_UI.DrawBox(0, 0, Info.WIDTH - 1, Info.HEIGHT - 1);
         Console.SetCursorPosition( 0, 0 );
+
+        Utils_UI.Render();
     }
 }
