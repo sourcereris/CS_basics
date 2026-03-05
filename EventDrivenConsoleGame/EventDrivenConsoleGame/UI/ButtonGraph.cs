@@ -26,20 +26,17 @@ public class ButtonGraph
         Current.Btn.IsSelected = true;
     }
 
-    // This signature exactly matches your Action<Vector2> event
     public void OnNavigate(Vector2 direction)
     {
         if (Current == null) return;
 
         UINode nextNode = null;
 
-        // Map the Vector2 to the correct neighbor
         if (direction.Y == 1) nextNode = Current.Up;    // W
         if (direction.Y == -1) nextNode = Current.Down;  // S
         if (direction.X == -1) nextNode = Current.Left;  // A
         if (direction.X == 1) nextNode = Current.Right; // D
 
-        // If a connected button exists in that direction, move to it
         if (nextNode != null)
         {
             Current.Btn.IsSelected = false; // Deselect old
@@ -52,7 +49,6 @@ public class ButtonGraph
     {
         if (Current != null)
         {
-            // Trigger the button's action (we will need to add this to the Button class)
             Current.Btn.Click();
         }
     }

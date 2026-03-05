@@ -6,7 +6,7 @@
     public int Height { get; private set; }
     public string Text { get; private set; }
     public bool IsSelected { get; set; }
-
+    public bool markOnLeft { get; set; } = true;
     public Action OnClick { get; set; }
 
     public Button(string text, int x, int y, int width, int height)
@@ -20,16 +20,25 @@
     }
     public void Render()
     {
-        Utils_UI.DrawBox(X, Y, Width,  Height);
+        Utils_UI.DrawBox(X, Y, Width, Height);
 
+        int textY = Y + Height / 2;
         int textX = X + (Width - Text.Length) / 2;
-        Utils_UI.DrawText(textX, Y + Height / 2, Text);
+
+        Utils_UI.DrawText(textX, textY, Text);
 
         Console.ResetColor();
-        
-        if(IsSelected)
+
+        if (IsSelected)
         {
-            Utils_UI.SetPixel(textX - 3, Y+1, '>');
+            if (markOnLeft)
+            {
+                Utils_UI.SetPixel(X - 1, textY, '>');
+            }
+            else
+            {
+                Utils_UI.SetPixel(X + Width, textY, '<');
+            }
         }
     }
     public void Click() 

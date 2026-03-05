@@ -26,7 +26,6 @@ class InputManager
                     InputEvents.Key_S_Event?.Invoke(new Vector2(0, -1));
                 break;
             default:
-                Console.WriteLine($"Unhandled key: {consoleKeyInfo.Key}");
                 break;
         }
     } 

@@ -5,6 +5,7 @@ using System.Text;
 static class UI 
 {
     static Layout mainMenu = new MainMenuLayout();
+    static Layout gameLayout = new GameLayout();
     public static void RenderUI() 
     {
         Utils_UI.ClearBackBuffer();
@@ -17,6 +18,7 @@ static class UI
                 break;
             case GameState.Playing:
                 Console.ForegroundColor = ConsoleColor.Yellow;
+                gameLayout.Render();
                 break;
             default:
                 Console.ForegroundColor = ConsoleColor.Red;
