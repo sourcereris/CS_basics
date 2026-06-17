@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
 
-Queue<string> players = new();
+Stack<string> UIScreens = new();
 
-players.Enqueue("Human");
-players.Enqueue("Orc");
-players.Enqueue("Goblin");
+UIScreens.Push("Main Menu");
+UIScreens.Push("Settings");
+UIScreens.Push("Audio");
 
-while(players.Count > 0)
+while(UIScreens.Count > 0)
 {
-    Console.WriteLine($"{players.Dequeue()} turn");
+    Console.WriteLine($"Closing Screen: {UIScreens.Pop()}");
 }
