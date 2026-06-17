@@ -1,75 +1,109 @@
-﻿using System.Collections.Generic;
-using Basics.Math;
-using Basics;
+﻿using Basics;
+using System;
+using System.Collections.Generic;
 
-Vector2 Player = new Vector2 { X = 10, Y = 5 };
-Vector2 Enemy = new Vector2 { X = 2, Y = 2 };
+//Player p1 = new Player("Alice", 100, 20);
+//p1.TakeDamage(DamageCalculator.CalculateDamage(50, p1.Armour));
 
-Vector2 Direction = Player - Enemy;
-Direction = Direction.Normalized;
+Dictionary<string, int> inventory = new();
 
+AddItem("Sword", 1);
+AddItem("Shield", 1);
+AddItem("Coin", 100);
+AddItem("Coin", 50);
 
-PlayerManager playerManager = new PlayerManager();
-
-Spawner<Skeleton> skeletonSpawner = new Spawner<Skeleton>();
-
-List<Enemy> enemies = new List<Enemy>();
-
-enemies.Add(new Skeleton(15));
-enemies.Add(new Skeleton(35));
-enemies.Add(new Skeleton(100));
-enemies.Add(new Skeleton(100));
-enemies.Add(new Skeleton(25));
+PrintInventory();
 
 
-List<Enemy> exequteTargets = enemies.Where(e => e.Health <= 30).ToList();
+// To simplyfy we will pretend that we have a data base of items in a txt file or smth
+// and we will use that txt file as a reference to fill our InvenotryDatabase.itemWeights Dictioary.
+// also we will use the same txt for filling our player inventory.
+InventoryManager playerInventory = new InventoryManager();
 
-foreach (var enemy in exequteTargets)
+playerInventory.AddItem("Potion", 5);
+playerInventory.AddItem("Rock", 3);
+
+float InventoryWeight()
 {
-    enemy.TakeDamage(9999);
+    float sum = 0;
+    foreach(var item in playerInventory.Inventory)
+    {
+        ItemDatabase.ItemWeights.TryGetValue(item.Key, out float weight);
+        sum += weight * item.Value;
+    }
+
+    return sum;
 }
 
-Dictionary<string, int> Ammo = new Dictionary<string, int>();
-string Bang = "Bang!";
-string Click = "Click";
-string no = "... ";
-string ammo = "(Empty)";
-
-Ammo.Add("Arrow", 50);
-Ammo.Add("Bullet", 20);
-Ammo.Add("Rocket", 5);
-
-FireWeapon("Arrow");
-Ammo["Arrow"] = 0;
-FireWeapon("Arrow");
-
-void FireWeapon(string weaponType)
+void AddItem(string itemName, int amount) 
 {
-    if (Ammo.ContainsKey(weaponType) && Ammo[weaponType] > 0 )
+    if (inventory.TryGetValue(itemName, out int currentAmount))
     {
-        Ammo[weaponType]--;
-        Console.WriteLine(Bang);
+        inventory[itemName] = currentAmount + amount;
     }
     else
     {
-        Console.WriteLine(Click + no + ammo);
+        inventory.Add(itemName, amount);
     }
 }
 
-List<Skeleton> skeletons = new List<Skeleton>();
-for (int i = 0; i < 3; i++)
+void PrintInventory() 
 {
-    Skeleton skeleton = skeletonSpawner.Spawn();
-    skeletons.Add(skeleton);
+    foreach (var item in inventory)
+    {
+        Console.WriteLine($"{item.Key}: {item.Value}");
+    }
 }
 
-public class Crate : IDamageable
+class Player 
 {
-    public float Health { get; set; } = 50;
-    public void TakeDamage(float damage)
+    private string _name;
+    private int _hp;
+    private int _armour;
+
+    public Player(string name, int hp, int armour) 
     {
-        Health -= damage;
-        if (Health < 250) Console.WriteLine("Crate cracks");
-        else if(Health < 0) Health = 0;
+        _name = name;
+        _hp = hp;
+        _armour = armour;
+    }
+
+    // all methods below do the same thing, just different syntax for properties, right?
+
+    //public int Armour() { return _armour; }
+    //public int Armour => _armour;
+    public int Armour {get { return _armour; } private set { } }
+    public int HP { get => _hp; private set { } }
+    public string Name { get => _name; private set { } }
+
+    public void TakeDamage(int damage)
+    {
+        if (_hp > damage)
+        {
+            _hp -= damage;
+            Console.WriteLine($"{_name} took {damage} damage and has {_hp} HP left.");
+        }
+        else
+        {
+            Console.WriteLine($"{_name} died");
+            _hp = 0;
+        }
+    }
+    public void SetArmour(int armour)
+    {
+        _armour = armour;
+        Console.WriteLine($"{_name} now has {_armour} armour.");
+    }
+}
+
+class DamageCalculator
+{
+    //staticm ethod used as utility for calculating damage after considering armour,
+    //not only i player class but also other classes can use this method
+    //without needing to create an instance of DamageCalculator
+    public static int CalculateDamage(int baseDamage, int armour)
+    {
+        int damageAfterArmour = baseDamage - armour;
+        return Math.Max(0, damageAfterArmour);
     }
 }
